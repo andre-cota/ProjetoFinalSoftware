@@ -1,0 +1,32 @@
+@startuml
+skinparam nodeStyle rectangle
+skinparam componentStyle rectangle
+
+node "Servidor Backend" {
+    [Gerenciador de Gastos]
+    [Gerenciador de Filhos]
+    [Notificações]
+    [Relatório de Gastos]
+    [Configuração de Limites]
+    [Banco de Dados]
+}
+
+node "Dispositivo do Responsável" {
+    [Interface de Usuário (Responsável)]
+}
+
+node "Dispositivo do Filho" {
+    [Interface de Usuário (Filho)]
+}
+
+' Conexões
+[Interface de Usuário (Responsável)] --> [Gerenciador de Gastos] : HTTP/HTTPS
+[Interface de Usuário (Filho)] --> [Gerenciador de Gastos] : HTTP/HTTPS
+
+[Gerenciador de Gastos] --> [Banco de Dados] : Conexão SQL
+[Gerenciador de Filhos] --> [Banco de Dados] : Conexão SQL
+[Relatório de Gastos] --> [Banco de Dados] : Conexão SQL
+
+[Notificações] --> [Interface de Usuário (Responsável)]
+[Notificações] --> [Interface de Usuário (Filho)]
+@enduml

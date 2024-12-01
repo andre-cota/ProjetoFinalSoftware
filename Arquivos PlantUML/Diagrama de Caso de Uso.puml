@@ -1,0 +1,42 @@
+@startuml
+left to right direction
+skinparam packageStyle rect
+skinparam actorStyle awesome
+
+actor "Responsável" as Responsavel
+actor "Filho" as Filho
+
+usecase "Cadastrar Gastos" as CadastrarGastosFilho <<UC01>>
+usecase "Aprovar/Rejeitar Gastos dos Filhos" as AprovarRejeitarGastos <<UC02>>
+usecase "Visualizar Saldo Disponível" as VisualizarSaldo <<UC03>>
+usecase "Solicitar Aumento de Saldo" as SolicitaSaldo <<UC04>>
+usecase "Adicionar/Remover Filho" as GerenciarFilhos <<UC05>>
+usecase "Consultar Relatório de Gastos" as ConsultarRelatorio <<UC06>>
+usecase "Visualizar Histórico de Solicitações" as VisualizarHistorico <<UC07>>
+usecase "Configurar Limite de Gastos" as ConfigurarLimite <<UC08>>
+usecase "Filho" as ConsultarRelatorioFilho <<UC06.1>>
+usecase "Próprio" as ConsultarRelatorioProprio <<UC0.2>>
+usecase "Visualizar Histórico de Solicitações" as VisualizarHistorico <<UC09>>
+usecase "Configurar Limite de Gastos" as ConfigurarLimite <<UC10>>
+usecase "Filho" as ConfigurarLimiteFilho <<UC08.1>>
+usecase "Próprio" as ConfigurarLimiteProprio <<UC08.2>>
+usecase "Cadastrar Gastos" as CadastrarGastosResponsavel <<UC11>>
+
+Responsavel --> GerenciarFilhos
+Responsavel --> AprovarRejeitarGastos
+Responsavel --> ConsultarRelatorio
+Responsavel --> ConfigurarLimite
+Responsavel--> CadastrarGastosResponsavel
+
+Filho --> CadastrarGastosFilho
+Filho --> VisualizarSaldo
+Filho --> SolicitaSaldo
+Filho --> VisualizarHistorico
+
+
+ConsultarRelatorio -[dashed]--> ConsultarRelatorioFilho : <<extend>>
+ConsultarRelatorio -[dashed]--> ConsultarRelatorioProprio : <<extend>>
+
+ConfigurarLimite -[dashed]--> ConfigurarLimiteFilho : <<extend>>
+ConfigurarLimite -[dashed]--> ConfigurarLimiteProprio : <<extend>>
+@enduml

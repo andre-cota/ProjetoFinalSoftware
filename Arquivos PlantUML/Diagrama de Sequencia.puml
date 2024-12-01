@@ -1,0 +1,23 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipantBackgroundColor #f0f0f0
+skinparam sequenceLifeLineBorderColor black
+skinparam sequenceLifeLineBackgroundColor #cfe2f3
+skinparam participantBorderColor black
+
+actor Filho
+actor Responsavel
+participant Sistema
+
+Filho -> Sistema : Cadastrar Gastos (Valor, Descrição) <<UC01>>
+Sistema --> Filho : Confirmação de Solicitação
+Sistema -> Responsavel : Notificação de Nova Solicitação
+
+Responsavel -> Sistema : Aprovar/Rejeitar Solicitação <<UC02>>
+Sistema -> Filho : Status da Solicitação (Aprovada/Rejeitada)
+
+Filho -> Sistema : Solicitar Aumento de Saldo (Valor Desejado) <<UC04>
+Sistema -> Responsavel : Notificação de Solicitação de Aumento
+Responsavel -> Sistema : Aprovar/Rejeitar Aumento
+Sistema -> Filho : Status da Solicitação de Aumento (Aprovado/Rejeitado)
+@enduml

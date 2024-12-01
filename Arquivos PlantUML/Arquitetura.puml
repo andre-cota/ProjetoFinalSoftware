@@ -1,0 +1,16 @@
+@startuml
+package "API REST" {
+  [Controller Gastos] --> [Service Gastos]
+  [Controller Solicitações] --> [Service Solicitações]
+  [Service Gastos] --> [Repository Gastos]
+  [Service Solicitações] --> [Repository Solicitações]
+  [Repository Gastos] --> DB : Acesso ao banco
+  [Repository Solicitações] --> DB : Acesso ao banco
+}
+
+package "Banco de Dados Relacional" as DB {
+    entity "Tabela Gastos"
+    entity "Tabela Solicitações"
+}
+
+@enduml

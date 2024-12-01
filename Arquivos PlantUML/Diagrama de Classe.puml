@@ -1,0 +1,74 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontColor black
+skinparam classBackgroundColor #f0f0f0
+skinparam classBorderColor black
+
+class Usuario {
+    - nome: String
+    - email: String
+    - senha: String
+    - saldoDisponivel: float
+    - consultarSaldo(): float
+}
+
+class Responsavel {
+    - aprovarGasto(gasto: Gasto): bool
+    - rejeitarGasto(gasto: Gasto): bool
+    - configurarLimite(filho: Filho, limite: float): void
+    - consultarRelatorio(filho: Filho): Relatorio
+}
+
+class Filho {
+    - solicitarGasto(valor: float, descricao: String): bool
+    - solicitarAumentoSaldo(valor: float): bool
+    - consultarHistoricoSolicitacoes(): List<Solicitacao>
+}
+
+class Gasto {
+    - valor: float
+    - descricao: String
+    - data: Date
+    - aprovado: bool
+}
+
+class Solicitacao {
+    - tipo: String
+    - valor: float
+    - data: Date
+    - status: String
+}
+
+class Relatorio {
+    - gerarRelatorio(filho: Filho): String
+}
+
+class Sistema {
+    - cadastrarGasto(filho: Filho, gasto: Gasto): bool
+    - notificarResponsavel(responsavel: Responsavel, solicitacao: Solicitacao): void
+    - aprovarRejeitarGasto(responsavel: Responsavel, gasto: Gasto, aprovado: bool): void
+}
+
+class Notificacao {
+    - enviarNotificacao(usuario: Usuario, mensagem: String): void
+}
+
+class BancoDeDados {
+    - armazenarGasto(gasto: Gasto): bool
+    - consultarGastos(usuario: Usuario): List<Gasto>
+    - atualizarLimite(usuario: Filho, limite: float): bool
+}
+
+' Relações entre classes
+Usuario <|-- Responsavel
+Usuario <|-- Filho
+Filho --> Gasto
+Responsavel --> Relatorio
+Responsavel --> Solicitacao
+Filho --> Solicitacao
+Sistema --> Gasto
+Sistema --> Notificacao
+Sistema --> BancoDeDados
+BancoDeDados --> Gasto
+BancoDeDados --> Solicitacao
+@enduml

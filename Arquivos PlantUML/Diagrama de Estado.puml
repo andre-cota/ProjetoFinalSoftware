@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #f0f0f0
+skinparam state {
+  BackgroundColor<<Solicitacao>> #cfe2f3
+  BackgroundColor<<Gasto>> #ffcc99
+  FontColor black
+  BorderColor black
+}
+
+[*] --> SolicitaçãoCriada : Nova solicitação criada pelo Filho
+
+state "Solicitação de Aumento de Saldo" as Solicitacao <<Solicitacao>> {
+  SolicitaçãoCriada --> Pendente : Enviar para aprovação do Responsável
+  Pendente --> Aprovada : Responsável aprova solicitação
+  Pendente --> Rejeitada : Responsável rejeita solicitação
+  Aprovada --> [*] : Saldo atualizado
+  Rejeitada --> [*] : Notificação enviada ao Filho
+}
+
+[*] --> GastoSolicitado : Novo gasto solicitado pelo Filho
+
+state "Fluxo de Aprovação de Gasto" as Gasto <<Gasto>> {
+  GastoSolicitado --> AguardandoAprovacao : Enviar para aprovação do Responsável
+  AguardandoAprovacao --> Aprovado : Responsável aprova gasto
+  AguardandoAprovacao --> Rejeitado : Responsável rejeita gasto
+  Aprovado --> [*] : Gasto confirmado e saldo atualizado
+  Rejeitado --> [*] : Notificação enviada ao Filho
+}
+
+@enduml

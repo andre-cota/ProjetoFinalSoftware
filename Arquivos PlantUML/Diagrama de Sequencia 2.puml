@@ -1,0 +1,44 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipantBackgroundColor #f0f0f0
+skinparam sequenceLifeLineBorderColor black
+skinparam sequenceLifeLineBackgroundColor #cfe2f3
+skinparam participantBorderColor black
+skinparam monochrome false
+skinparam participantFontSize 12
+
+' Participantes principais
+actor Filho
+actor Responsavel
+participant "Sistema" as Sistema
+participant "BancoDeDados" as DB
+participant "Notificação" as Notificacao
+
+== UC01: Cadastrar Gasto ==
+
+Filho -> Sistema : solicitarGasto(valor, descricao)
+Sistema -> BancoDeDados : armazenarGasto(gasto)
+BancoDeDados --> Sistema : Confirmação de Armazenamento
+Sistema -> Notificacao : notificarResponsavel(responsavel, solicitacao)
+Notificacao --> Responsavel : Notificação de Nova Solicitação
+Sistema --> Filho : Confirmação de Solicitação
+
+== UC02: Aprovar/Rejeitar Gasto ==
+
+Responsavel -> Sistema : aprovarRejeitarGasto(gasto, aprovado)
+Sistema -> BancoDeDados : atualizarStatusGasto(gasto, aprovado)
+BancoDeDados --> Sistema : Confirmação de Atualização
+Sistema -> Filho : Notificação de Aprovação/Rejeição
+Sistema --> Responsavel : Confirmação de Ação
+
+== UC04: Solicitar Aumento de Saldo ==
+
+Filho -> Sistema : solicitarAumentoSaldo(valorDesejado)
+Sistema -> Notificacao : notificarResponsavel(responsavel, solicitacao)
+Notificacao --> Responsavel : Notificação de Solicitação de Aumento
+Responsavel -> Sistema : aprovarRejeitarSolicitacao(solicitacao, aprovado)
+Sistema -> BancoDeDados : atualizarSaldo(filho, novoSaldo)
+BancoDeDados --> Sistema : Confirmação de Atualização
+Sistema -> Filho : Status da Solicitação de Aumento (Aprovado/Rejeitado)
+
+@enduml
